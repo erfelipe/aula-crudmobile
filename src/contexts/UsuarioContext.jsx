@@ -26,8 +26,8 @@ export default function UsuarioProvider({ children }) {
       axios.put(url + id, {
         nome: nome,
         email: email,
-        altura: altura,
-        peso: peso,
+        altura: (altura ? altura : null),
+        peso: (peso ? peso : null),
       }).then((resp) => atualizaListaUsuarioEditado(resp)).catch((erro) => console.log(erro));
     } else {
       axios.post(url, {
@@ -41,16 +41,15 @@ export default function UsuarioProvider({ children }) {
 
   function atualizaListaUsuarioEditado(response) {
     console.log(response);
-    console.log(response.data);
-    console.log(response.data, "edit");
-
+    //ou usa-se a confirmacao pelo id retornado
+    //ou usa-se um response.status == 20x com um if
     let { id } = response.data;
     const index = usuarios.findIndex(item => item.id == id);
     let users = usuarios;
     users[index].nome = nome;
     users[index].email = email;
-    users[index].altura = altura;
-    users[index].peso = peso;
+    users[index].altura = (altura ? altura : null);
+    users[index].peso = (peso ? peso : null);
     setUsuarios(users);
 
     let usuario = {};
